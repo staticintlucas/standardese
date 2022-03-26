@@ -114,14 +114,24 @@ inline cppast::cpp_standard parse_standard(const std::string& str)
         return cpp_standard::cpp_14;
     else if (str == "c++1z")
         return cpp_standard::cpp_1z;
-	else if (str == "c++17")
+    else if (str == "c++17")
         return cpp_standard::cpp_17;
-	else if (str == "c++2a")
+    else if (str == "c++2a")
         return cpp_standard::cpp_2a;
-	else if (str == "c++20")
+    else if (str == "c++20")
         return cpp_standard::cpp_20;
+    else if (str == "c89")
+        return cpp_standard::c_89;
+    else if (str == "c99")
+        return cpp_standard::c_99;
+    else if (str == "c11")
+        return cpp_standard::c_11;
+    else if (str == "c17")
+        return cpp_standard::c_17;
+    else if (str == "c2x")
+        return cpp_standard::c_2x;
     else
-        throw std::invalid_argument("invalid C++ standard '" + str + "'");
+        throw std::invalid_argument("invalid C/C++ standard '" + str + "'");
 }
 
 cppast::libclang_compile_config get_compile_config(const po::variables_map& options)
@@ -333,7 +343,7 @@ int main(int argc, char* argv[])
     configuration.add_options()
         ("input.source_ext",
          po::value<std::vector<std::string>>()
-         ->default_value({".h", ".hpp", ".h++", ".hxx"}, "(common C++ header file extensions)"),
+         ->default_value({".h", ".hpp", ".h++", ".hxx"}, "(common C/C++ header file extensions)"),
          "file extensions that are treated as header files and where files will be parsed")
         ("input.blacklist_ext",
          po::value<std::vector<std::string>>()->default_value({}, "(none)"),
@@ -366,7 +376,7 @@ int main(int argc, char* argv[])
         ("compilation.commands_dir", po::value<std::string>(),
          "the directory where a compile_commands.json is located, its options have lower priority than the other ones")
         ("compilation.standard", po::value<std::string>()->default_value("c++14"),
-         "the C++ standard to use for parsing, valid values are c++98/03/11/14/1z/17")
+         "the C/C++ standard to use for parsing, valid values are c++98/03/11/14/1z/17, c89/99/11/17/2x")
         ("compilation.include_dir,I", po::value<std::vector<std::string>>(),
          "adds an additional include directory to use for parsing")
         ("compilation.macro_definition,D", po::value<std::vector<std::string>>(),
