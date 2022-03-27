@@ -100,38 +100,10 @@ type_safe::optional<T> get_option(const po::variables_map& map, const char* name
         return type_safe::nullopt;
 }
 
+/// \throws std::invalid_argument for an invalid standard string
 inline cppast::cpp_standard parse_standard(const std::string& str)
 {
-    using cppast::cpp_standard;
-
-    if (str == "c++98")
-        return cpp_standard::cpp_98;
-    else if (str == "c++03")
-        return cpp_standard::cpp_03;
-    else if (str == "c++11")
-        return cpp_standard::cpp_11;
-    else if (str == "c++14")
-        return cpp_standard::cpp_14;
-    else if (str == "c++1z")
-        return cpp_standard::cpp_1z;
-    else if (str == "c++17")
-        return cpp_standard::cpp_17;
-    else if (str == "c++2a")
-        return cpp_standard::cpp_2a;
-    else if (str == "c++20")
-        return cpp_standard::cpp_20;
-    else if (str == "c89")
-        return cpp_standard::c_89;
-    else if (str == "c99")
-        return cpp_standard::c_99;
-    else if (str == "c11")
-        return cpp_standard::c_11;
-    else if (str == "c17")
-        return cpp_standard::c_17;
-    else if (str == "c2x")
-        return cpp_standard::c_2x;
-    else
-        throw std::invalid_argument("invalid C/C++ standard '" + str + "'");
+    return cppast::to_standard(str);
 }
 
 cppast::libclang_compile_config get_compile_config(const po::variables_map& options)
